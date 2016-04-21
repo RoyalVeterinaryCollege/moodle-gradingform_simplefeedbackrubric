@@ -1,0 +1,211 @@
+.gradingform_simplefeedbackrubric_editform .status {
+    font-weight: normal;
+    text-transform: uppercase;
+    font-size: 60%;
+    padding: 0.25em;
+    border: 1px solid #EEE;
+}
+.gradingform_simplefeedbackrubric_editform .status.ready {
+    background-color: #e7f1c3;
+    border-color: #AAEEAA;
+}
+.gradingform_simplefeedbackrubric_editform .status.draft {
+    background-color: #f3f2aa;
+    border-color: #EEEE22;
+}
+.gradingform_simplefeedbackrubric {
+    overflow: auto;
+    padding-bottom: 1.5em;
+    max-width: 720px;
+    position: relative;
+}
+.gradingform_simplefeedbackrubric.editor .criterion .controls,
+.gradingform_simplefeedbackrubric .criterion .description,
+.gradingform_simplefeedbackrubric .criterion .levels,
+.gradingform_simplefeedbackrubric.editor .criterion .addlevel,
+.gradingform_simplefeedbackrubric .criterion .levels .level {
+    vertical-align: top;
+}
+.gradingform_simplefeedbackrubric.editor .criterion .controls,
+.gradingform_simplefeedbackrubric .criterion .description,
+.gradingform_simplefeedbackrubric.editor .criterion .addlevel,
+.gradingform_simplefeedbackrubric .criterion .levels .level {
+    padding: 3px;
+}
+.gradingform_simplefeedbackrubric .criteria {
+    height: 100%;
+}
+.gradingform_simplefeedbackrubric .criterion {
+    border: 1px solid #DDD;
+    overflow: hidden;
+}
+.gradingform_simplefeedbackrubric .criterion.even {
+    background: #F0F0F0;
+}
+.gradingform_simplefeedbackrubric .criterion .description {
+    width: 150px;
+    font-weight: bold;
+}
+.gradingform_simplefeedbackrubric .criterion .levels table {
+    width: 100%;
+    height: 100%;
+}
+.gradingform_simplefeedbackrubric .criterion .levels,
+.gradingform_simplefeedbackrubric .criterion .levels table,
+.gradingform_simplefeedbackrubric .criterion .levels table tbody {
+    padding: 0;
+    margin: 0;
+}
+.gradingform_simplefeedbackrubric .criterion .levels .level {
+    border-left: 1px solid #DDD;
+    max-width: 150px;
+}
+.gradingform_simplefeedbackrubric .criterion .levels .level .level-wrapper {
+    position: relative;
+}
+.gradingform_simplefeedbackrubric .criterion .levels .level.last {
+    border-right: 1px solid #DDD;
+}
+.gradingform_simplefeedbackrubric .plainvalue.empty {
+    font-style: italic;
+    color: #AAA;
+}
+.gradingform_simplefeedbackrubric.editor .criterion .levels .level .delete {
+    position: absolute;
+    right: 0;
+}
+.gradingform_simplefeedbackrubric .criterion .levels .level .score {
+    font-style: italic;
+    color: #575;
+    font-weight: bold;
+    margin-top: 5px;
+    white-space: nowrap;
+}
+.gradingform_simplefeedbackrubric .criterion .levels .level .score .scorevalue {
+    padding-right: 5px;
+}
+.gradingform_simplefeedbackrubric.editor .criterion.first .controls .moveup input,
+.gradingform_simplefeedbackrubric.editor .criterion.last .controls .movedown input {
+    display: none;
+}
+.gradingform_simplefeedbackrubric .criterion .levels .level.currentchecked {
+    background: #fff0f0;
+}
+.gradingform_simplefeedbackrubric .criterion .levels .level.checked {
+    background: #d0ffd0;
+    border: 1px solid #555;
+}
+.gradingform_simplefeedbackrubric.evaluate .criterion .levels .level:hover {
+    background: #30ff30;
+}
+.gradingform_simplefeedbackrubric.editor .delete input,
+.gradingform_simplefeedbackrubric.editor .moveup input,
+.gradingform_simplefeedbackrubric.editor .movedown input {
+    text-indent: -1000em;
+    cursor: pointer;
+    border: none;
+}
+.gradingform_simplefeedbackrubric.editor .criterion .controls .delete input {
+    width: 12px;
+    height: 12px;
+    background: transparent url([[pix:t/delete]]) no-repeat center top;
+    margin: .3em .3em 0 .3em;
+}
+.gradingform_simplefeedbackrubric.editor .levels .level .delete input {
+    width: 12px;
+    height: 16px;
+    background: transparent url([[pix:t/delete]]) no-repeat center center;
+}
+.dir-rtl .gradingform_simplefeedbackrubric.editor .levels .level .delete input {
+    margin-right: .45em;
+    margin-left: 0;
+}
+.gradingform_simplefeedbackrubric.editor .moveup input {
+    width: 12px;
+    height: 12px;
+    background: transparent url([[pix:t/up]]) no-repeat center top;
+    margin: .3em .3em 0 .3em;
+}
+.gradingform_simplefeedbackrubric.editor .movedown input {
+    width: 12px;
+    height: 12px;
+    background: transparent url([[pix:t/down]]) no-repeat center top;
+    margin: .3em .3em 0 .3em;
+}
+.gradingform_simplefeedbackrubric.editor .addcriterion input,
+.gradingform_simplefeedbackrubric.editor .addlevel input {
+    background: transparent url([[pix:t/add]]) no-repeat top left;
+    display: block;
+    color: #555555;
+    font-weight: bold;
+    text-decoration: none;
+}
+.gradingform_simplefeedbackrubric.editor .addcriterion input {
+    background-position: 5px 8px;
+    height: 30px;
+    line-height: 29px;
+    margin-bottom: 14px;
+    padding-left: 20px;
+    padding-right: 10px;
+}
+.gradingform_simplefeedbackrubric.editor .addlevel input {
+    background-position: 5px 5px;
+    height: 25px;
+    line-height: 24px;
+    margin-bottom: 45px;
+    padding-left: 18px;
+    padding-right: 8px;
+}
+.gradingform_simplefeedbackrubric .options .optionsheading {
+    font-weight: bold;
+    font-size: 1.1em;
+    padding-bottom: 5px;
+}
+.gradingform_simplefeedbackrubric .options .option {
+    padding-bottom: 2px;
+}
+.gradingform_simplefeedbackrubric .options .option label {
+    margin-left: 5px;
+}
+.gradingform_simplefeedbackrubric .options .option .value {
+    margin-left: 5px;
+    font-weight: bold;
+}
+.gradingform_simplefeedbackrubric .criterion .levels.error {
+    border: 1px solid red;
+}
+.gradingform_simplefeedbackrubric .criterion .description.error,
+.gradingform_simplefeedbackrubric .criterion .levels .level .definition.error,
+.gradingform_simplefeedbackrubric .criterion .levels .level .score.error {
+    background: #FFDDDD;
+}
+.gradingform_simplefeedbackrubric-regrade {
+    padding: 10px;
+    background: #FFDDDD;
+    border: 1px solid #F00;
+    margin-bottom: 10px;
+}
+.gradingform_simplefeedbackrubric-restored {
+    padding: 10px;
+    background: #FFFFDD;
+    border: 1px solid #FF0;
+    margin-bottom: 10px;
+}
+.gradingform_simplefeedbackrubric-error {
+    color: red;
+    font-weight: bold;
+}
+.gradingform_simplefeedbackrubric.editor .hiddenelement {
+    display: none;
+}
+.gradingform_simplefeedbackrubric.editor .pseudotablink {
+    background-color: transparent;
+    border: 0 solid;
+    height: 1px;
+    width: 1px;
+    color: transparent;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    float: right;
+}
