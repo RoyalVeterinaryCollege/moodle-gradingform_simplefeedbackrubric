@@ -403,12 +403,6 @@ class gradingform_simplefeedbackrubric_renderer extends plugin_renderer_base {
             $return .= html_writer::end_tag('div');
         }
 
-        $module = array(
-            'name' => 'gradingform_simplefeedbackrubric',
-            'fullpath' => '/grade/grading/form/simplefeedbackrubric/js/simplefeedbackrubric.js'
-        );
-        $this->page->requires->js_init_call('M.gradingform_simplefeedbackrubric.init_feedback', array(), false, $module);
-
         return $return. $defaultcontent;
     }
 

@@ -105,8 +105,3 @@ M.gradingform_simplefeedbackrubric.levelclick = function(e, Y, name) {
         el.get('parentNode').all('input[type=radio]').set('checked', false)
     }
 }
-
-M.gradingform_simplefeedbackrubric.init_feedback = function(Y) {
-
-    Y.one('.gradingform_simplefeedbackrubric.view').ancestor('tr').setStyle('display', 'none');
-}
