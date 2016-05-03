@@ -26,7 +26,7 @@ M.gradingform_simplefeedbackrubric.levelclick = function(e, Y, name) {
     var levels = matches[2];
 
     // The current text in the comment
-    var currentcommenttext = Y.one('#feedback_commenteditable')._node.innerHTML;
+    var currentcommenttext = Y.one('.editor_atto_content')._node.innerHTML;
 
     // The text in the rubric block which has been clicked
     var clickedleveltext = e._currentTarget.innerText.trim();
@@ -88,9 +88,9 @@ M.gradingform_simplefeedbackrubric.levelclick = function(e, Y, name) {
     }
 
     if (newcommenttext) {
-        Y.one('#feedback_commenteditable').setContent(newcommenttext);
+        Y.one('.editor_atto_content').setContent(newcommenttext);
         var x = window.scrollX, y = window.scrollY;
-        Y.one('#feedback_commenteditable').focus();
+        Y.one('.editor_atto_content').focus();
         window.scrollTo(x, y);
     }
 
