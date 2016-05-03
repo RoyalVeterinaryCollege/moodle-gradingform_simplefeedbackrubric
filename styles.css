@@ -74,15 +74,9 @@
     position: absolute;
     right: 0;
 }
-.gradingform_simplefeedbackrubric .criterion .levels .level .score {
-    font-style: italic;
-    color: #575;
-    font-weight: bold;
+.gradingform_simplefeedbackrubric .criterion .levels .level .sfrubric-spacer {
     margin-top: 5px;
     white-space: nowrap;
-}
-.gradingform_simplefeedbackrubric .criterion .levels .level .score .scorevalue {
-    padding-right: 5px;
 }
 .gradingform_simplefeedbackrubric.editor .criterion.first .controls .moveup input,
 .gradingform_simplefeedbackrubric.editor .criterion.last .controls .movedown input {
@@ -208,4 +202,104 @@
     margin: 0;
     position: relative;
     float: right;
+}
+
+#simplefeedbackrubric-simplefeedbackrubric.gradingform_simplefeedbackrubric .addcriterion input {
+    background: transparent url([[pix:t/add]]) no-repeat scroll 7px 8px;
+    border: 0 none;
+    color: inherit;
+    line-height: inherit;
+    margin: 0;
+    padding-left: 26px;
+    text-shadow: inherit;
+}
+
+#simplefeedbackrubric-simplefeedbackrubric.gradingform_simplefeedbackrubric .addcriterion {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #f5f5f5;
+    background-image: linear-gradient(to bottom, #fff, #e6e6e6);
+    background-repeat: repeat-x;
+    border-color: #ccc #ccc #b3b3b3;
+    border-image: none;
+    border-radius: 4px;
+    border-style: solid;
+    border-width: 1px;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 1px 2px rgba(0, 0, 0, 0.05);
+    color: #333;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    line-height: 20px;
+    margin-bottom: 1em;
+    margin-left: 5px;
+    padding: 0;
+    text-align: center;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+    vertical-align: middle;
+}
+
+#simplefeedbackrubric-simplefeedbackrubric.gradingform_simplefeedbackrubric #simplefeedbackrubric-criteria {
+    margin-bottom: 1em;
+}
+
+
+#simplefeedbackrubric-simplefeedbackrubric.gradingform_simplefeedbackrubric #simplefeedbackrubric-criteria .criterion .addlevel {
+    vertical-align: middle;
+}
+
+#simplefeedbackrubric-simplefeedbackrubric.gradingform_simplefeedbackrubric #simplefeedbackrubric-criteria .criterion .addlevel input {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #f5f5f5;
+    background-image: linear-gradient(to bottom, #fff, #e6e6e6);
+    background-position: 0 0;
+    background-repeat: repeat-x;
+    border-color: #ccc #ccc #b3b3b3;
+    border-image: none;
+    border-radius: 4px;
+    border-style: solid;
+    border-width: 1px;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 1px 2px rgba(0, 0, 0, 0.05);
+    color: #333;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    height: 30px;
+    line-height: 20px;
+    margin-bottom: 0;
+    margin-right: 5px;
+    padding: 4px 12px;
+    text-align: center;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+    vertical-align: middle;
+}
+
+#simplefeedbackrubric-simplefeedbackrubric.gradingform_simplefeedbackrubric #simplefeedbackrubric-criteria .criterion .level .delete {
+    clear: both;
+    float: right;
+    height: 32px;
+    margin-top: -32px;
+    position: relative;
+    width: 32px;
+}
+
+#simplefeedbackrubric-simplefeedbackrubric.gradingform_simplefeedbackrubric #simplefeedbackrubric-criteria .criterion .level .delete input {
+    bottom: 0;
+    display: block;
+    height: 24px;
+    margin: 0;
+    position: absolute;
+    right: 0;
+    width: 24px;
+}
+
+#simplefeedbackrubric-simplefeedbackrubric.gradingform_simplefeedbackrubric #simplefeedbackrubric-criteria .criterion .sfrubric-spacer {
+    float: left;
+    margin-right: 28px;
+    position: relative;
 }

@@ -181,6 +181,7 @@ class gradingform_simplefeedbackrubric_renderer extends plugin_renderer_base {
             $definitionclass .= ' error';
         }
         $leveltemplate .= html_writer::tag('div', $definition, array('class' => $definitionclass, 'id' => '{NAME}-criteria-{CRITERION-id}-levels-{LEVEL-id}-definition'));
+        $leveltemplate .= html_writer::tag('div', '&nbsp;', array('class' => 'sfrubric-spacer'));
         if ($mode == gradingform_simplefeedbackrubric_controller::DISPLAY_EDIT_FULL) {
             $value = get_string('leveldelete', 'gradingform_simplefeedbackrubric');
             $button = html_writer::empty_tag('input', array('type' => 'submit', 'name' => '{NAME}[criteria][{CRITERION-id}][levels][{LEVEL-id}][delete]', 'id' => '{NAME}-criteria-{CRITERION-id}-levels-{LEVEL-id}-delete', 'value' => $value, 'title' => $value, 'tabindex' => -1));
