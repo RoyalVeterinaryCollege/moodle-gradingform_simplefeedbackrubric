@@ -93,6 +93,7 @@
     background: #30ff30;
 }
 .gradingform_simplefeedbackrubric.editor .delete input,
+.gradingform_simplefeedbackrubric.editor .duplicate input,
 .gradingform_simplefeedbackrubric.editor .moveup input,
 .gradingform_simplefeedbackrubric.editor .movedown input {
     text-indent: -1000em;
@@ -103,6 +104,12 @@
     width: 12px;
     height: 12px;
     background: transparent url([[pix:t/delete]]) no-repeat center top;
+    margin: .3em .3em 0 .3em;
+}
+.gradingform_simplefeedbackrubric.editor .criterion .controls .duplicate input {
+    width: 12px;
+    height: 12px;
+    background: transparent url([[pix:t/copy]]) no-repeat center top;
     margin: .3em .3em 0 .3em;
 }
 .gradingform_simplefeedbackrubric.editor .levels .level .delete input {

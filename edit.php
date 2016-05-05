@@ -46,7 +46,19 @@ $PAGE->set_url(new moodle_url('/grade/grading/form/simplefeedbackrubric/edit.php
 $PAGE->set_title(get_string('definesimplefeedbackrubric', 'gradingform_simplefeedbackrubric'));
 $PAGE->set_heading(get_string('definesimplefeedbackrubric', 'gradingform_simplefeedbackrubric'));
 
-$mform = new gradingform_simplefeedbackrubric_editsimplefeedbackrubric(null, array('areaid' => $areaid, 'context' => $context, 'allowdraft' => !$controller->has_active_instances()), 'post', '', array('class' => 'gradingform_simplefeedbackrubric_editform'));
+$mform = new gradingform_simplefeedbackrubric_editsimplefeedbackrubric(
+        null,
+        array(
+            'areaid' => $areaid,
+            'context' => $context,
+            'allowdraft' => !$controller->has_active_instances()
+        ),
+        'post',
+        '',
+        array(
+            'class' => 'gradingform_simplefeedbackrubric_editform'
+        )
+    );
 $data = $controller->get_definition_for_editing(true);
 $returnurl = optional_param('returnurl', $manager->get_management_url(), PARAM_LOCALURL);
 $data->returnurl = $returnurl;

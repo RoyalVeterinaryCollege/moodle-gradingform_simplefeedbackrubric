@@ -78,7 +78,7 @@ class gradingform_simplefeedbackrubric_renderer extends plugin_renderer_base {
         $criteriontemplate = html_writer::start_tag('tr', array('class' => 'criterion'. $criterion['class'], 'id' => '{NAME}-criteria-{CRITERION-id}'));
         if ($mode == gradingform_simplefeedbackrubric_controller::DISPLAY_EDIT_FULL) {
             $criteriontemplate .= html_writer::start_tag('td', array('class' => 'controls'));
-            foreach (array('moveup', 'delete', 'movedown') as $key) {
+            foreach (array('moveup', 'delete', 'movedown', 'duplicate') as $key) {
                 $value = get_string('criterion'.$key, 'gradingform_simplefeedbackrubric');
                 $button = html_writer::empty_tag('input', array('type' => 'submit', 'name' => '{NAME}[criteria][{CRITERION-id}]['.$key.']',
                     'id' => '{NAME}-criteria-{CRITERION-id}-'.$key, 'value' => $value, 'title' => $value, 'tabindex' => -1));
@@ -143,7 +143,7 @@ class gradingform_simplefeedbackrubric_renderer extends plugin_renderer_base {
     public function level_template($mode, $options, $elementname = '{NAME}', $criterionid = '{CRITERION-id}', $level = null) {
         // TODO MDL-31235 definition format
         if (!isset($level['id'])) {
-            $level = array('id' => '{LEVEL-id}', 'definition' => '{LEVEL-definition}', 'score' => '{LEVEL-score}', 'class' => '{LEVEL-class}', 'checked' => false);
+            $level = array('id' => '{LEVEL-id}', 'definition' => '{LEVEL-definition}', 'class' => '{LEVEL-class}', 'checked' => false);
         } else {
             foreach (array('score', 'definition', 'class', 'checked') as $key) {
                 // set missing array elements to empty strings to avoid warnings
@@ -347,7 +347,11 @@ class gradingform_simplefeedbackrubric_renderer extends plugin_renderer_base {
                 $level['id'] = $levelid;
                 $level['class'] = $this->get_css_class_suffix($levelcnt++, sizeof($criterion['levels']) -1);
                 $level['checked'] = (isset($criterionvalue['levelid']) && ((int)$criterionvalue['levelid'] === $levelid));
-                if ($level['checked'] && ($mode == gradingform_simplefeedbackrubric_controller::DISPLAY_EVAL_FROZEN || $mode == gradingform_simplefeedbackrubric_controller::DISPLAY_REVIEW || $mode == gradingform_simplefeedbackrubric_controller::DISPLAY_VIEW)) {
+                if ($level['checked'] &&
+                        ($mode == gradingform_simplefeedbackrubric_controller::DISPLAY_EVAL_FROZEN
+                        || $mode == gradingform_simplefeedbackrubric_controller::DISPLAY_REVIEW
+                        || $mode == gradingform_simplefeedbackrubric_controller::DISPLAY_VIEW)
+                    ) {
                     $level['class'] .= ' checked';
                     //in mode DISPLAY_EVAL the class 'checked' will be added by JS if it is enabled. If JS is not enabled, the 'checked' class will only confuse
                 }

@@ -113,17 +113,28 @@ class MoodleQuickForm_simplefeedbackrubriceditor extends HTML_QuickForm_input {
         $data = $this->prepare_data(null, $this->wasvalidated);
         if (!$this->_flagFrozen) {
             $mode = gradingform_simplefeedbackrubric_controller::DISPLAY_EDIT_FULL;
-            $module = array('name'=>'gradingform_simplefeedbackrubriceditor', 'fullpath'=>'/grade/grading/form/simplefeedbackrubric/js/simplefeedbackrubriceditor.js',
+            $module = array(
+                'name'=>'gradingform_simplefeedbackrubriceditor',
+                'fullpath'=>'/grade/grading/form/simplefeedbackrubric/js/simplefeedbackrubriceditor.js',
                 'requires' => array('base', 'dom', 'event', 'event-touch', 'escape'),
-                'strings' => array(array('confirmdeletecriterion', 'gradingform_simplefeedbackrubric'), array('confirmdeletelevel', 'gradingform_simplefeedbackrubric'),
-                    array('criterionempty', 'gradingform_simplefeedbackrubric'), array('levelempty', 'gradingform_simplefeedbackrubric')
-                    ));
-            $PAGE->requires->js_init_call('M.gradingform_simplefeedbackrubriceditor.init', array(
-                array('name' => $this->getName(),
-                    'criteriontemplate' => $renderer->criterion_template($mode, $data['options'], $this->getName()),
-                    'leveltemplate' => $renderer->level_template($mode, $data['options'], $this->getName())
-                   )),
-                true, $module);
+                'strings' => array(
+                    array('confirmdeletecriterion', 'gradingform_simplefeedbackrubric'),
+                    array('confirmdeletelevel', 'gradingform_simplefeedbackrubric'),
+                    array('criterionempty', 'gradingform_simplefeedbackrubric'),
+                    array('levelempty', 'gradingform_simplefeedbackrubric')
+                )
+            );
+            $PAGE->requires->js_init_call(
+                    'M.gradingform_simplefeedbackrubriceditor.init',
+                    array(
+                        array('name' => $this->getName(),
+                            'criteriontemplate' => $renderer->criterion_template($mode, $data['options'], $this->getName()),
+                            'leveltemplate' => $renderer->level_template($mode, $data['options'], $this->getName())
+                        )
+                    ),
+                    true,
+                    $module
+                );
         } else {
             // Simple Feedback Rubric is frozen, no javascript needed
             if ($this->_persistantFreeze) {
