@@ -10,9 +10,11 @@ M.gradingform_simplefeedbackrubric.init = function(Y, options) {
         editortext = editortext.replace(pattern, '');
     }
     if (!editortext || editortext.length === 0) {
-        var criterion = options.criterion;
-        for (i=0; i<criterion.length; ++i) {
-            editortext += '<span name="comment-criteria-'+criterion[i]+'"></span>';
+        if (options.criterionordering) {
+            var criterion = options.criterion;
+            for (i=0; i<criterion.length; ++i) {
+                editortext += '<span name="comment-criteria-'+criterion[i]+'"></span>';
+            }
         }
         Y.one('.editor_atto_content').setContent(editortext);
     }
