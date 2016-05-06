@@ -806,7 +806,9 @@ class gradingform_simplefeedbackrubric_instance extends gradingform_instance {
         global $USER;
         if (!$gradingformelement->_flagFrozen) {
             $module = array('name'=>'gradingform_simplefeedbackrubric', 'fullpath'=>'/grade/grading/form/simplefeedbackrubric/js/simplefeedbackrubric.js');
-            $page->requires->js_init_call('M.gradingform_simplefeedbackrubric.init', array(array('name' => $gradingformelement->getName())), true, $module);
+            $criterion = array_keys($this->get_controller()->get_definition()->simplefeedbackrubric_criteria);
+            $page->requires->js_init_call('M.gradingform_simplefeedbackrubric.init',
+                    array(array('name' => $gradingformelement->getName(), 'criterion' => $criterion)), true, $module);
             $mode = gradingform_simplefeedbackrubric_controller::DISPLAY_EVAL;
         } else {
             if ($gradingformelement->_persistantFreeze) {

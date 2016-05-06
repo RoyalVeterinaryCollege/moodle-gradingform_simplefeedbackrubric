@@ -4,7 +4,18 @@ M.gradingform_simplefeedbackrubric = {};
  * This function is called for each simplefeedbackrubric on page.
  */
 M.gradingform_simplefeedbackrubric.init = function(Y, options) {
-
+    var editortext = Y.one('.editor_atto_content')._node.innerHTML;
+    var pattern = new RegExp(/(<.*?>|\ )/);
+    while (editortext.match(pattern)) {
+        editortext = editortext.replace(pattern, '');
+    }
+    if (!editortext || editortext.length === 0) {
+        var criterion = options.criterion;
+        for (i=0; i<criterion.length; ++i) {
+            editortext += '<span name="comment-criteria-'+criterion[i]+'"></span>';
+        }
+        Y.one('.editor_atto_content').setContent(editortext);
+    }
     Y.on('click', M.gradingform_simplefeedbackrubric.levelclick, '#simplefeedbackrubric-'+options.name+' .level', null, Y, options.name);
     Y.all('#simplefeedbackrubric-'+options.name+' .radio').setStyle('display', 'none')
     Y.all('#simplefeedbackrubric-'+options.name+' .level').each(function (node) {
@@ -52,37 +63,39 @@ M.gradingform_simplefeedbackrubric.levelclick = function(e, Y, name) {
 
     // If a sibling rubric block is currently selected
     if (siblingtext) {
-
         // If the current comment text already contains the selected sibling block text,
         // replace the contained sibling text string with the clicked rubric string
-        if (currentcommenttext.match(new RegExp('(<span name="comment-criteria-'+siblingcriteria+'-levels-'+siblinglevel+'"><p>.*?<\/p><\/span>)'))) {
+        if (currentcommenttext.match(new RegExp('(<span name="comment-criteria-'+siblingcriteria+'">.*?<\/span>)'))) {
             newcommenttext = currentcommenttext.replace(
                 new RegExp(
-                    '(<span name="comment-criteria-'+siblingcriteria+'-levels-'+siblinglevel+'"><p>.*?<\/p><\/span>)'),
-                    '<span name="comment-criteria-'+criteria+'-levels-'+levels+ '"><p>'+clickedleveltext+'</p></span>'
+                    '(<span name="comment-criteria-'+siblingcriteria+'">.*?<\/span>)'),
+                    '<span name="comment-criteria-'+criteria+'"><p>'+clickedleveltext+'</p></span>'
             );
-
         // If the current comment text does not contain the selected sibling block text...
         } else {
             // ...it should
-            newcommenttext = currentcommenttext+' '+'<span name="comment-criteria-'+criteria+'-levels-'+levels+'"><p>'+clickedleveltext+'</p></span>';
+            newcommenttext = currentcommenttext+' '+'<span name="comment-criteria-'+criteria+'"><p>'+clickedleveltext+'</p></span>';
         }
-
     // If no sibling rubric block is currently selected
     } else {
-
         // If we are deselecting the rubric item, remove the rubric text string from the comment text
         if (el.hasClass('checked')) {
             newcommenttext = currentcommenttext.replace(
-                new RegExp('(<span name="comment-criteria-'+criteria+'-levels-'+levels+'"><p>.*?<\/p><\/span>)'),
+                new RegExp('(<span name="comment-criteria-'+criteria+'">.*?<\/span>)'),
                 ''
             );
         // If we are selecting the rubric item, add the rubric item text string to the comment text
         } else {
-
             // If current comment text does not contain the clicked rubric item text
-            if (!currentcommenttext.match(new RegExp('(<span name="comment-criteria-'+criteria+'-levels-'+levels+'"><p>.*?<\/p><\/span>)'))) {
-                newcommenttext = currentcommenttext+' '+'<span name="comment-criteria-'+criteria+'-levels-'+levels+'"><p>'+clickedleveltext+'</p></span>';
+            if (!currentcommenttext.match(new RegExp('(<span name="comment-criteria-'+criteria+'">.*?<\/span>)'))) {
+                newcommenttext = currentcommenttext+' '+'<span name="comment-criteria-'+criteria+'"><p>'+clickedleveltext+'</p></span>';
+            } else {
+                // replace the contained sibling text string with the clicked rubric string
+                newcommenttext = currentcommenttext.replace(
+                    new RegExp(
+                        '(<span name="comment-criteria-'+criteria+'">.*?<\/span>)'),
+                        '<span name="comment-criteria-'+criteria+'"><p>'+clickedleveltext+'</p></span>'
+                );
             }
         }
     }
