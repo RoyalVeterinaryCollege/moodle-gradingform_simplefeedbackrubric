@@ -16,7 +16,6 @@
 .gradingform_simplefeedbackrubric {
     overflow: auto;
     padding-bottom: 1.5em;
-    max-width: 720px;
     position: relative;
 }
 .gradingform_simplefeedbackrubric.editor .criterion .controls,
@@ -34,6 +33,7 @@
 }
 .gradingform_simplefeedbackrubric .criteria {
     height: 100%;
+    width: 100%;
 }
 .gradingform_simplefeedbackrubric .criterion {
     border: 1px solid #DDD;
