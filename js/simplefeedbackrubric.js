@@ -84,7 +84,7 @@ M.gradingform_simplefeedbackrubric.levelclick = function(e, Y, name) {
         if (el.hasClass('checked')) {
             newcommenttext = currentcommenttext.replace(
                 new RegExp('(<span name="comment-criteria-'+criteria+'">.*?<\/span>)'),
-                ''
+                '<span name="comment-criteria-'+criteria+'"></span>'
             );
         // If we are selecting the rubric item, add the rubric item text string to the comment text
         } else {
