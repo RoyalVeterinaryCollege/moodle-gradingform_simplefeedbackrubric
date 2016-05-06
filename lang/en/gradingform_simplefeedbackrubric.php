@@ -26,6 +26,9 @@ defined('MOODLE_INTERNAL') || die();
 
 $string['addcriterion'] = 'Add criterion';
 $string['alwaysshowdefinition'] = 'Allow users to preview Simple Simple Feedback Rubric used in the module (otherwise Simple Feedback Rubric will only become visible after grading)';
+$string['autopopulatecomments'] = 'Feedback comment created automatically from rubric';
+$string['autopopulatecomments0'] = 'No';
+$string['autopopulatecomments1'] = 'Yes';
 $string['backtoediting'] = 'Back to editing';
 $string['criterionordering'] = 'Feedback comment ordering is based on the criterion order specified in the rubric';
 $string['criterionordering0'] = 'No';

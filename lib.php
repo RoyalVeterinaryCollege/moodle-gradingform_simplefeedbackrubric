@@ -335,6 +335,7 @@ class gradingform_simplefeedbackrubric_controller extends gradingform_controller
     public static function get_default_options() {
         $options = array(
             'showdescriptionteacher' => 1,
+            'autopopulatecomments' => 0,
             'criterionordering' => 1
         );
         return $options;
@@ -810,8 +811,11 @@ class gradingform_simplefeedbackrubric_instance extends gradingform_instance {
         if (!$gradingformelement->_flagFrozen) {
             $module = array('name'=>'gradingform_simplefeedbackrubric', 'fullpath'=>'/grade/grading/form/simplefeedbackrubric/js/simplefeedbackrubric.js');
             $page->requires->js_init_call('M.gradingform_simplefeedbackrubric.init',
-                    array(array('name' => $gradingformelement->getName(), 'criterion' => array_keys($criteria),
-                        'criterionordering' => $options['criterionordering'])), true, $module);
+                    array(array(
+                        'name' => $gradingformelement->getName(), 'criterion' => array_keys($criteria),
+                        'criterionordering' => $options['criterionordering'],
+                        'autopopulatecomments' => $options['autopopulatecomments']
+                    )), true, $module);
             $mode = gradingform_simplefeedbackrubric_controller::DISPLAY_EVAL;
         } else {
             if ($gradingformelement->_persistantFreeze) {

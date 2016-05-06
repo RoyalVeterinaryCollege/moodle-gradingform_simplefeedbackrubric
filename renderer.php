@@ -277,6 +277,7 @@ class gradingform_simplefeedbackrubric_renderer extends plugin_renderer_base {
             switch ($option) {
                 case 'showdescriptionteacher':
                 case 'criterionordering':
+                case 'autopopulatecomments':
                     // Display option as dropdown
                     $html .= html_writer::label(get_string($option, 'gradingform_simplefeedbackrubric'), $attrs['id'], false, array('class' => 'label'));
                     $value = (int)(!!$value); // make sure $value is either 0 or 1
