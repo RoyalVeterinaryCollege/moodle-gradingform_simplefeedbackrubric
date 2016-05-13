@@ -19,6 +19,7 @@
  *
  * @package    gradingform_simplefeedbackrubric
  * @copyright  2016 onwards Catalyst IT {@link http://www.catalyst-eu.net/}
+ * @author     Edwin Phillips <edwin.phillips@catalyst-eu.net>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
  * Based on code originating from package gradingform_rubric
@@ -66,7 +67,7 @@ $mform->set_data($data);
 if ($mform->is_cancelled()) {
     redirect($returnurl);
 } else if ($mform->is_submitted() && $mform->is_validated() && !$mform->need_confirm_regrading($controller)) {
-    // everything ok, validated, re-grading confirmed if needed. Make changes to the simplefeedbackrubric
+    // Everything ok, validated, re-grading confirmed if needed. Make changes to the simplefeedbackrubric.
     $controller->update_definition($mform->get_data());
     redirect($returnurl);
 }

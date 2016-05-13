@@ -19,6 +19,7 @@
  *
  * @package    gradingform_simplefeedbackrubric
  * @copyright  2016 onwards Catalyst IT {@link http://www.catalyst-eu.net/}
+ * @author     Edwin Phillips <edwin.phillips@catalyst-eu.net>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
  * Based on code originating from package gradingform_rubric
@@ -28,17 +29,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/**
- * Restores the simplefeedbackrubric specific data from grading.xml file
- *
- * @package    gradingform_simplefeedbackrubric
- * @copyright  2016 onwards Catalyst IT {@link http://www.catalyst-eu.net/}
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- *
- * Based on code originating from package gradingform_rubric
- * @copyright  2011 David Mudrak <david@moodle.com>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 class restore_gradingform_simplefeedbackrubric_plugin extends restore_gradingform_plugin {
 
     /**

@@ -19,6 +19,7 @@
  *
  * @package    gradingform_simplefeedbackrubric
  * @copyright  2016 onwards Catalyst IT {@link http://www.catalyst-eu.net/}
+ * @author     Edwin Phillips <edwin.phillips@catalyst-eu.net>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
  * Based on code originating from package gradingform_rubric

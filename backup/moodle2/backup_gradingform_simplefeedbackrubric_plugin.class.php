@@ -15,10 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Support for backup API
+ * Defines simplefeedbackrubric backup structures
  *
  * @package    gradingform_simplefeedbackrubric
  * @copyright  2016 onwards Catalyst IT {@link http://www.catalyst-eu.net/}
+ * @author     Edwin Phillips <edwin.phillips@catalyst-eu.net>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
  * Based on code originating from package gradingform_rubric
@@ -28,17 +29,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/**
- * Defines simplefeedbackrubric backup structures
- *
- * @package    gradingform_simplefeedbackrubric
- * @copyright  2016 onwards Catalyst IT {@link http://www.catalyst-eu.net/}
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- *
- * Based on code originating from package gradingform_rubric
- * @copyright  2011 David Mudrak <david@moodle.com>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 class backup_gradingform_simplefeedbackrubric_plugin extends backup_gradingform_plugin {
 
     /**
@@ -46,16 +36,16 @@ class backup_gradingform_simplefeedbackrubric_plugin extends backup_gradingform_
      */
     protected function define_definition_plugin_structure() {
 
-        // Append data only if the grand-parent element has 'method' set to 'simplefeedbackrubric'
+        // Append data only if the grand-parent element has 'method' set to 'simplefeedbackrubric'.
         $plugin = $this->get_plugin_element(null, '../../method', 'simplefeedbackrubric');
 
-        // Create a visible container for our data
+        // Create a visible container for our data.
         $pluginwrapper = new backup_nested_element($this->get_recommended_name());
 
-        // Connect our visible container to the parent
+        // Connect our visible container to the parent.
         $plugin->add_child($pluginwrapper);
 
-        // Define our elements
+        // Define our elements.
 
         $criteria = new backup_nested_element('criteria');
 
@@ -67,14 +57,14 @@ class backup_gradingform_simplefeedbackrubric_plugin extends backup_gradingform_
         $level = new backup_nested_element('level', array('id'), array(
             'definition', 'definitionformat'));
 
-        // Build elements hierarchy
+        // Build elements hierarchy.
 
         $pluginwrapper->add_child($criteria);
         $criteria->add_child($criterion);
         $criterion->add_child($levels);
         $levels->add_child($level);
 
-        // Set sources to populate the data
+        // Set sources to populate the data.
 
         $criterion->set_source_table('gradingform_sfrbric_criteria',
                 array('definitionid' => backup::VAR_PARENTID));
@@ -82,8 +72,8 @@ class backup_gradingform_simplefeedbackrubric_plugin extends backup_gradingform_
         $level->set_source_table('gradingform_sfrbric_levels',
                 array('criterionid' => backup::VAR_PARENTID));
 
-        // no need to annotate ids or files yet (one day when criterion definition supports
-        // embedded files, they must be annotated here)
+        // No need to annotate ids or files yet.
+        // One day when criterion definition supports embedded files, they must be annotated here.
 
         return $plugin;
     }
@@ -93,30 +83,30 @@ class backup_gradingform_simplefeedbackrubric_plugin extends backup_gradingform_
      */
     protected function define_instance_plugin_structure() {
 
-        // Append data only if the ancestor 'definition' element has 'method' set to 'simplefeedbackrubric'
+        // Append data only if the ancestor 'definition' element has 'method' set to 'simplefeedbackrubric'.
         $plugin = $this->get_plugin_element(null, '../../../../method', 'simplefeedbackrubric');
 
-        // Create a visible container for our data
+        // Create a visible container for our data.
         $pluginwrapper = new backup_nested_element($this->get_recommended_name());
 
-        // Connect our visible container to the parent
+        // Connect our visible container to the parent.
         $plugin->add_child($pluginwrapper);
 
-        // Define our elements
+        // Define our elements.
 
         $fillings = new backup_nested_element('fillings');
 
         $filling = new backup_nested_element('filling', array('id'), array(
             'criterionid', 'levelid'));
 
-        // Build elements hierarchy
+        // Build elements hierarchy.
 
         $pluginwrapper->add_child($fillings);
         $fillings->add_child($filling);
 
-        // Set sources to populate the data
+        // Set sources to populate the data.
 
-        // Binding criterionid to ensure it's existence
+        // Binding criterionid to ensure it's existence.
         $filling->set_source_sql('SELECT rf.*
                 FROM {gradingform_sfrbric_fillings} rf
                 JOIN {grading_instances} gi ON gi.id = rf.instanceid
@@ -124,7 +114,7 @@ class backup_gradingform_simplefeedbackrubric_plugin extends backup_gradingform_
                 WHERE rf.instanceid = :instanceid',
                 array('instanceid' => backup::VAR_PARENTID));
 
-        // no need to annotate ids or files yet
+        // No need to annotate ids or files yet.
 
         return $plugin;
     }

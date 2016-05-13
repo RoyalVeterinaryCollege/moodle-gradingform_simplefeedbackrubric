@@ -15,10 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * The form used at the simplefeedbackrubric editor page is defined here
+ * Defines the simplefeedbackrubric edit form
  *
  * @package    gradingform_simplefeedbackrubric
  * @copyright  2016 onwards Catalyst IT {@link http://www.catalyst-eu.net/}
+ * @author     Edwin Phillips <edwin.phillips@catalyst-eu.net>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
  * Based on code originating from package gradingform_rubric
@@ -30,19 +31,10 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/lib/formslib.php');
 require_once(dirname(__FILE__).'/simplefeedbackrubriceditor.php');
-MoodleQuickForm::registerElementType('simplefeedbackrubriceditor', $CFG->dirroot.'/grade/grading/form/simplefeedbackrubric/simplefeedbackrubriceditor.php', 'MoodleQuickForm_simplefeedbackrubriceditor');
+MoodleQuickForm::registerElementType('simplefeedbackrubriceditor',
+        $CFG->dirroot.'/grade/grading/form/simplefeedbackrubric/simplefeedbackrubriceditor.php',
+        'MoodleQuickForm_simplefeedbackrubriceditor');
 
-/**
- * Defines the simplefeedbackrubric edit form
- *
- * @package    gradingform_simplefeedbackrubric
- * @copyright  2016 onwards Catalyst IT {@link http://www.catalyst-eu.net/}
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- *
- * Based on code originating from package gradingform_rubric
- * @copyright  2011 Marina Glancy <marina@moodle.com>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 class gradingform_simplefeedbackrubric_editsimplefeedbackrubric extends moodleform {
 
     /**
@@ -57,30 +49,37 @@ class gradingform_simplefeedbackrubric_editsimplefeedbackrubric extends moodlefo
         $form->addElement('hidden', 'returnurl');
         $form->setType('returnurl', PARAM_LOCALURL);
 
-        // name
-        $form->addElement('text', 'name', get_string('name', 'gradingform_simplefeedbackrubric'), array('size'=>52));
+        // Name.
+        $form->addElement('text', 'name', get_string('name', 'gradingform_simplefeedbackrubric'), array('size' => 52));
         $form->addRule('name', get_string('required'), 'required');
         $form->setType('name', PARAM_TEXT);
 
-        // description
+        // Description.
         $options = gradingform_simplefeedbackrubric_controller::description_form_field_options($this->_customdata['context']);
-        $form->addElement('editor', 'description_editor', get_string('description', 'gradingform_simplefeedbackrubric'), null, $options);
+        $form->addElement('editor', 'description_editor',
+                get_string('description', 'gradingform_simplefeedbackrubric'), null, $options);
         $form->setType('description_editor', PARAM_RAW);
 
-        // simplefeedbackrubric completion status
+        // Simplefeedbackrubric completion status.
         $choices = array();
-        $choices[gradingform_controller::DEFINITION_STATUS_DRAFT]    = html_writer::tag('span', get_string('statusdraft', 'core_grading'), array('class' => 'status draft'));
-        $choices[gradingform_controller::DEFINITION_STATUS_READY]    = html_writer::tag('span', get_string('statusready', 'core_grading'), array('class' => 'status ready'));
-        $form->addElement('select', 'status', get_string('simplefeedbackrubricstatus', 'gradingform_simplefeedbackrubric'), $choices)->freeze();
+        $choices[gradingform_controller::DEFINITION_STATUS_DRAFT] = html_writer::tag('span',
+                get_string('statusdraft', 'core_grading'), array('class' => 'status draft'));
+        $choices[gradingform_controller::DEFINITION_STATUS_READY] = html_writer::tag('span',
+                get_string('statusready', 'core_grading'), array('class' => 'status ready'));
+        $form->addElement('select', 'status',
+                get_string('simplefeedbackrubricstatus', 'gradingform_simplefeedbackrubric'), $choices)->freeze();
 
-        // simplefeedbackrubric editor
-        $element = $form->addElement('simplefeedbackrubriceditor', 'simplefeedbackrubric', get_string('simplefeedbackrubric', 'gradingform_simplefeedbackrubric'));
+        // Simplefeedbackrubric editor.
+        $element = $form->addElement('simplefeedbackrubriceditor', 'simplefeedbackrubric',
+                get_string('simplefeedbackrubric', 'gradingform_simplefeedbackrubric'));
         $form->setType('simplefeedbackrubric', PARAM_RAW);
 
         $buttonarray = array();
-        $buttonarray[] = &$form->createElement('submit', 'savesimplefeedbackrubric', get_string('savesimplefeedbackrubric', 'gradingform_simplefeedbackrubric'));
+        $buttonarray[] = &$form->createElement('submit', 'savesimplefeedbackrubric',
+                get_string('savesimplefeedbackrubric', 'gradingform_simplefeedbackrubric'));
         if ($this->_customdata['allowdraft']) {
-            $buttonarray[] = &$form->createElement('submit', 'savesimplefeedbackrubricdraft', get_string('savesimplefeedbackrubricdraft', 'gradingform_simplefeedbackrubric'));
+            $buttonarray[] = &$form->createElement('submit', 'savesimplefeedbackrubricdraft',
+                    get_string('savesimplefeedbackrubricdraft', 'gradingform_simplefeedbackrubric'));
         }
         $editbutton = &$form->createElement('submit', 'editsimplefeedbackrubric', ' ');
         $editbutton->freeze();
@@ -106,7 +105,7 @@ class gradingform_simplefeedbackrubric_editsimplefeedbackrubric extends moodlefo
         } else {
             $vals = array_values($el->getValue());
             if ($vals[0] == gradingform_controller::DEFINITION_STATUS_READY) {
-                $this->findButton('savesimplefeedbackrubric')->setValue(get_string('save', 'gradingform_simplefeedbackrubric'));
+                $this->findbutton('savesimplefeedbackrubric')->setValue(get_string('save', 'gradingform_simplefeedbackrubric'));
             }
         }
     }
@@ -127,13 +126,13 @@ class gradingform_simplefeedbackrubric_editsimplefeedbackrubric extends moodlefo
         $form = $this->_form;
         $simplefeedbackrubricel = $form->getElement('simplefeedbackrubric');
         if ($simplefeedbackrubricel->non_js_button_pressed($data['simplefeedbackrubric'])) {
-            // if JS is disabled and button such as 'Add criterion' is pressed - prevent from submit
+            // If JS is disabled and button such as 'Add criterion' is pressed - prevent from submit.
             $err['simplefeedbackrubricdummy'] = 1;
         } else if (isset($data['editsimplefeedbackrubric'])) {
-            // continue editing
+            // Continue editing.
             $err['simplefeedbackrubricdummy'] = 1;
         } else if (isset($data['savesimplefeedbackrubric']) && $data['savesimplefeedbackrubric']) {
-            // If user attempts to make simplefeedbackrubric active - it needs to be validated
+            // If user attempts to make simplefeedbackrubric active - it needs to be validated.
             if ($simplefeedbackrubricel->validate($data['simplefeedbackrubric']) !== false) {
                 $err['simplefeedbackrubricdummy'] = 1;
             }
@@ -167,27 +166,26 @@ class gradingform_simplefeedbackrubric_editsimplefeedbackrubric extends moodlefo
     public function need_confirm_regrading($controller) {
         $data = $this->get_data();
         if (isset($data->simplefeedbackrubric['regrade'])) {
-            // we have already displayed the confirmation on the previous step
+            // We have already displayed the confirmation on the previous step.
             return false;
         }
         if (!isset($data->savesimplefeedbackrubric) || !$data->savesimplefeedbackrubric) {
-            // we only need confirmation when button 'Save simplefeedbackrubric' is pressed
+            // We only need confirmation when button 'Save simplefeedbackrubric' is pressed.
             return false;
         }
         if (!$controller->has_active_instances()) {
-            // nothing to re-grade, confirmation not needed
+            // Nothing to re-grade, confirmation not needed.
             return false;
         }
         $changelevel = $controller->update_or_check_simplefeedbackrubric($data);
         if ($changelevel == 0) {
-            // no changes in the simplefeedbackrubric, no confirmation needed
+            // No changes in the simplefeedbackrubric, no confirmation needed.
             return false;
         }
 
-        // freeze form elements and pass the values in hidden fields
-        // TODO MDL-29421 description_editor does not freeze the normal way, uncomment below when fixed
+        // Freeze form elements and pass the values in hidden fields.
         $form = $this->_form;
-        foreach (array('simplefeedbackrubric', 'name'/*, 'description_editor'*/) as $fieldname) {
+        foreach (array('simplefeedbackrubric', 'name') as $fieldname) {
             $el =& $form->getElement($fieldname);
             $el->freeze();
             $el->setPersistantFreeze(true);
@@ -196,9 +194,9 @@ class gradingform_simplefeedbackrubric_editsimplefeedbackrubric extends moodlefo
             }
         }
 
-        // replace button text 'savesimplefeedbackrubric' and unfreeze 'Back to edit' button
-        $this->findButton('savesimplefeedbackrubric')->setValue(get_string('continue'));
-        $el =& $this->findButton('editsimplefeedbackrubric');
+        // Replace button text 'savesimplefeedbackrubric' and unfreeze 'Back to edit' button.
+        $this->findbutton('savesimplefeedbackrubric')->setValue(get_string('continue'));
+        $el =& $this->findbutton('editsimplefeedbackrubric');
         $el->setValue(get_string('backtoediting', 'gradingform_simplefeedbackrubric'));
         $el->unfreeze();
 
@@ -211,7 +209,7 @@ class gradingform_simplefeedbackrubric_editsimplefeedbackrubric extends moodlefo
      * @param string $elementname
      * @return HTML_QuickForm_element
      */
-    protected function &findButton($elementname) {
+    protected function &findbutton($elementname) {
         $form = $this->_form;
         $buttonar =& $form->getElement('buttonar');
         $elements =& $buttonar->getElements();

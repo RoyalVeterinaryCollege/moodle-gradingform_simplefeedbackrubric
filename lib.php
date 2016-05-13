@@ -19,6 +19,7 @@
  *
  * @package    gradingform_simplefeedbackrubric
  * @copyright  2016 onwards Catalyst IT {@link http://www.catalyst-eu.net/}
+ * @author     Edwin Phillips <edwin.phillips@catalyst-eu.net>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
  * Based on code originating from package gradingform_rubric
@@ -42,23 +43,23 @@ require_once($CFG->dirroot.'/grade/grading/form/lib.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class gradingform_simplefeedbackrubric_controller extends gradingform_controller {
-    // Modes of displaying the simplefeedbackrubric (used in gradingform_simplefeedbackrubric_renderer)
+    // Modes of displaying the simplefeedbackrubric (used in gradingform_simplefeedbackrubric_renderer).
     /** Simple Feedback Rubric display mode: For editing (moderator or teacher creates a simplefeedbackrubric) */
-    const DISPLAY_EDIT_FULL     = 1;
+    const DISPLAY_EDIT_FULL = 1;
     /** Simple Feedback Rubric display mode: Preview the simplefeedbackrubric design with hidden fields */
-    const DISPLAY_EDIT_FROZEN   = 2;
+    const DISPLAY_EDIT_FROZEN = 2;
     /** Simple Feedback Rubric display mode: Preview the simplefeedbackrubric design (for person with manage permission) */
-    const DISPLAY_PREVIEW       = 3;
+    const DISPLAY_PREVIEW = 3;
     /** Simple Feedback Rubric display mode: Preview the simplefeedbackrubric (for people being graded) */
-    const DISPLAY_PREVIEW_GRADED= 8;
+    const DISPLAY_PREVIEW_GRADED = 8;
     /** Simple Feedback Rubric display mode: For evaluation, enabled (teacher grades a student) */
-    const DISPLAY_EVAL          = 4;
+    const DISPLAY_EVAL = 4;
     /** Simple Feedback Rubric display mode: For evaluation, with hidden fields */
-    const DISPLAY_EVAL_FROZEN   = 5;
+    const DISPLAY_EVAL_FROZEN = 5;
     /** Simple Feedback Rubric display mode: Teacher reviews filled simplefeedbackrubric */
-    const DISPLAY_REVIEW        = 6;
+    const DISPLAY_REVIEW = 6;
     /** Simple Feedback Rubric display mode: Dispaly filled simplefeedbackrubric (i.e. students see their grades) */
-    const DISPLAY_VIEW          = 7;
+    const DISPLAY_VIEW = 7;
 
     /**
      * Extends the module settings navigation with the simplefeedbackrubric grading settings
@@ -87,7 +88,7 @@ class gradingform_simplefeedbackrubric_controller extends gradingform_controller
      */
     public function extend_navigation(global_navigation $navigation, navigation_node $node=null) {
         if (has_capability('moodle/grade:managegradingforms', $this->get_context())) {
-            // no need for preview if user can manage forms, he will have link to manage.php in settings instead
+            // No need for preview if user can manage forms, he will have link to manage.php in settings instead.
             return;
         }
     }
@@ -96,7 +97,8 @@ class gradingform_simplefeedbackrubric_controller extends gradingform_controller
      * Saves the simplefeedbackrubric definition into the database
      *
      * @see parent::update_definition()
-     * @param stdClass $newdefinition simplefeedbackrubric definition data as coming from gradingform_simplefeedbackrubric_editsimplefeedbackrubric::get_data()
+     * @param stdClass $newdefinition simplefeedbackrubric definition data
+     * as coming from gradingform_simplefeedbackrubric_editsimplefeedbackrubric::get_data()
      * @param int|null $usermodified optional userid of the author of the definition, defaults to the current user
      */
     public function update_definition(stdClass $newdefinition, $usermodified = null) {
@@ -112,11 +114,13 @@ class gradingform_simplefeedbackrubric_controller extends gradingform_controller
      * 0 - no changes
      * 1 - only texts or criteria sortorders are changed, students probably do not require re-grading
      * 2 - added levels, students still may not require re-grading
-     * 3 - removed criteria or added levels or changed number of points, students require re-grading but may be re-graded automatically
+     * 3 - removed criteria or added levels or changed number of points,
+     *      students require re-grading but may be re-graded automatically
      * 4 - removed levels - students require re-grading and not all students may be re-graded automatically
      * 5 - added criteria - all students require manual re-grading
      *
-     * @param stdClass $newdefinition simplefeedbackrubric definition data as coming from gradingform_simplefeedbackrubric_editsimplefeedbackrubric::get_data()
+     * @param stdClass $newdefinition simplefeedbackrubric definition data
+     *      as coming from gradingform_simplefeedbackrubric_editsimplefeedbackrubric::get_data()
      * @param int|null $usermodified optional userid of the author of the definition, defaults to the current user
      * @param boolean $doupdate if true actually updates DB, otherwise performs a check
      *
@@ -124,14 +128,14 @@ class gradingform_simplefeedbackrubric_controller extends gradingform_controller
     public function update_or_check_simplefeedbackrubric(stdClass $newdefinition, $usermodified = null, $doupdate = false) {
         global $DB;
 
-        // firstly update the common definition data in the {grading_definition} table
+        // Firstly update the common definition data in the {grading_definition} table.
         if ($this->definition === false) {
             if (!$doupdate) {
-                // if we create the new definition there is no such thing as re-grading anyway
+                // If we create the new definition there is no such thing as re-grading anyway.
                 return 5;
             }
-            // if definition does not exist yet, create a blank one
-            // (we need id to save files embedded in description)
+            // If definition does not exist yet, create a blank one.
+            // We need id to save files embedded in description.
             parent::update_definition(new stdClass(), $usermodified);
             parent::load_definition();
         }
@@ -143,28 +147,28 @@ class gradingform_simplefeedbackrubric_controller extends gradingform_controller
         $newdefinition = file_postupdate_standard_editor($newdefinition, 'description', $editoroptions, $this->get_context(),
             'grading', 'description', $this->definition->id);
 
-        // reload the definition from the database
+        // Reload the definition from the database.
         $currentdefinition = $this->get_definition(true);
 
-        // update simplefeedbackrubric data
+        // Update simplefeedbackrubric data.
         $haschanges = array();
         if (empty($newdefinition->simplefeedbackrubric['criteria'])) {
             $newcriteria = array();
         } else {
-            $newcriteria = $newdefinition->simplefeedbackrubric['criteria']; // new ones to be saved
+            $newcriteria = $newdefinition->simplefeedbackrubric['criteria']; // New ones to be saved.
         }
         $currentcriteria = $currentdefinition->simplefeedbackrubric_criteria;
         $criteriafields = array('sortorder', 'description', 'descriptionformat');
         $levelfields = array('definition', 'definitionformat');
         foreach ($newcriteria as $id => $criterion) {
-            // get list of submitted levels
+            // Get list of submitted levels.
             $levelsdata = array();
             if (array_key_exists('levels', $criterion)) {
                 $levelsdata = $criterion['levels'];
             }
             if (preg_match('/^NEWID\d+$/', $id)) {
-                // insert criterion into DB
-                $data = array('definitionid' => $this->definition->id, 'descriptionformat' => FORMAT_MOODLE); // TODO MDL-31235 format is not supported yet
+                // Insert criterion into DB.
+                $data = array('definitionid' => $this->definition->id, 'descriptionformat' => FORMAT_MOODLE);
                 foreach ($criteriafields as $key) {
                     if (array_key_exists($key, $criterion)) {
                         $data[$key] = $criterion[$key];
@@ -175,7 +179,7 @@ class gradingform_simplefeedbackrubric_controller extends gradingform_controller
                 }
                 $haschanges[5] = true;
             } else {
-                // update criterion in DB
+                // Update criterion in DB.
                 $data = array();
                 foreach ($criteriafields as $key) {
                     if (array_key_exists($key, $criterion) && $criterion[$key] != $currentcriteria[$id][$key]) {
@@ -183,14 +187,14 @@ class gradingform_simplefeedbackrubric_controller extends gradingform_controller
                     }
                 }
                 if (!empty($data)) {
-                    // update only if something is changed
+                    // Update only if something is changed.
                     $data['id'] = $id;
                     if ($doupdate) {
                         $DB->update_record('gradingform_sfrbric_criteria', $data);
                     }
                     $haschanges[1] = true;
                 }
-                // remove deleted levels from DB for this criteria
+                // Remove deleted levels from DB for this criteria.
                 foreach ($currentcriteria[$id]['levels'] as $levelid => $currentlevel) {
                     if (!array_key_exists($levelid, $levelsdata)) {
                         if ($doupdate) {
@@ -202,8 +206,8 @@ class gradingform_simplefeedbackrubric_controller extends gradingform_controller
             }
             foreach ($levelsdata as $levelid => $level) {
                 if (preg_match('/^NEWID\d+$/', $levelid)) {
-                    // insert level into DB
-                    $data = array('criterionid' => $id, 'definitionformat' => FORMAT_MOODLE); // TODO MDL-31235 format is not supported yet
+                    // Insert level into DB.
+                    $data = array('criterionid' => $id, 'definitionformat' => FORMAT_MOODLE);
                     foreach ($levelfields as $key) {
                         if (array_key_exists($key, $level)) {
                             $data[$key] = $level[$key];
@@ -214,7 +218,7 @@ class gradingform_simplefeedbackrubric_controller extends gradingform_controller
                     }
                     $haschanges[3] = true;
                 } else {
-                    // update level in DB
+                    // Update level in DB.
                     $data = array();
                     foreach ($levelfields as $key) {
                         if (array_key_exists($key, $level) && $level[$key] != $currentcriteria[$id]['levels'][$levelid][$key]) {
@@ -222,7 +226,7 @@ class gradingform_simplefeedbackrubric_controller extends gradingform_controller
                         }
                     }
                     if (!empty($data)) {
-                        // update only if something is changed
+                        // Update only if something is changed.
                         $data['id'] = $levelid;
                         if ($doupdate) {
                             $DB->update_record('gradingform_sfrbric_levels', $data);
@@ -232,7 +236,7 @@ class gradingform_simplefeedbackrubric_controller extends gradingform_controller
                 }
             }
         }
-        // remove deleted criteria from DB
+        // Remove deleted criteria from DB.
         foreach (array_keys($currentcriteria) as $id) {
             if (!array_key_exists($id, $newcriteria)) {
                 if ($doupdate) {
@@ -257,7 +261,7 @@ class gradingform_simplefeedbackrubric_controller extends gradingform_controller
             parent::update_definition($newdefinition, $usermodified);
             $this->load_definition();
         }
-        // return the maximum level of changes
+        // Return the maximum level of changes.
         $changelevels = array_keys($haschanges);
         sort($changelevels);
         return array_pop($changelevels);
@@ -300,7 +304,7 @@ class gradingform_simplefeedbackrubric_controller extends gradingform_controller
         $rs = $DB->get_recordset_sql($sql, $params);
         $this->definition = false;
         foreach ($rs as $record) {
-            // pick the common definition data
+            // Pick the common definition data.
             if ($this->definition === false) {
                 $this->definition = new stdClass();
                 foreach (array('id', 'name', 'description', 'descriptionformat', 'status', 'copiedfromid',
@@ -309,14 +313,14 @@ class gradingform_simplefeedbackrubric_controller extends gradingform_controller
                 }
                 $this->definition->simplefeedbackrubric_criteria = array();
             }
-            // pick the criterion data
+            // Pick the criterion data.
             if (!empty($record->rcid) and empty($this->definition->simplefeedbackrubric_criteria[$record->rcid])) {
                 foreach (array('id', 'sortorder', 'description', 'descriptionformat') as $fieldname) {
                     $this->definition->simplefeedbackrubric_criteria[$record->rcid][$fieldname] = $record->{'rc'.$fieldname};
                 }
                 $this->definition->simplefeedbackrubric_criteria[$record->rcid]['levels'] = array();
             }
-            // pick the level data
+            // Pick the level data.
             if (!empty($record->rlid)) {
                 foreach (array('id', 'definition', 'definitionformat') as $fieldname) {
                     $value = $record->{'rl'.$fieldname};
@@ -360,7 +364,8 @@ class gradingform_simplefeedbackrubric_controller extends gradingform_controller
     /**
      * Converts the current definition into an object suitable for the editor form's set_data()
      *
-     * @param boolean $addemptycriterion whether to add an empty criterion if the simplefeedbackrubric is completely empty (just being created)
+     * @param boolean $addemptycriterion whether to add an empty criterion if the simplefeedbackrubric
+     *      is completely empty (just being created)
      * @return stdClass
      */
     public function get_definition_for_editing($addemptycriterion = false) {
@@ -487,19 +492,22 @@ class gradingform_simplefeedbackrubric_controller extends gradingform_controller
         if (has_capability('moodle/grade:managegradingforms', $page->context)) {
             $showdescription = true;
         } else {
-            if (empty($options['alwaysshowdefinition']))  {
-                // ensure we don't display unless show simplefeedbackrubric option enabled
+            if (empty($options['alwaysshowdefinition'])) {
+                // Ensure we don't display unless show simplefeedbackrubric option enabled.
                 return '';
             }
         }
         $output = $this->get_renderer($page);
         if ($showdescription) {
-            $simplefeedbackrubric .= $output->box($this->get_formatted_description(), 'gradingform_simplefeedbackrubric-description');
+            $simplefeedbackrubric .= $output->box($this->get_formatted_description(),
+                    'gradingform_simplefeedbackrubric-description');
         }
         if (has_capability('moodle/grade:managegradingforms', $page->context)) {
-            $simplefeedbackrubric .= $output->display_simplefeedbackrubric($criteria, $options, self::DISPLAY_PREVIEW, 'simplefeedbackrubric');
+            $simplefeedbackrubric .= $output->display_simplefeedbackrubric($criteria, $options,
+                    self::DISPLAY_PREVIEW, 'simplefeedbackrubric');
         } else {
-            $simplefeedbackrubric .= $output->display_simplefeedbackrubric($criteria, $options, self::DISPLAY_PREVIEW_GRADED, 'simplefeedbackrubric');
+            $simplefeedbackrubric .= $output->display_simplefeedbackrubric($criteria, $options,
+                    self::DISPLAY_PREVIEW_GRADED, 'simplefeedbackrubric');
         }
 
         return $simplefeedbackrubric;
@@ -511,19 +519,20 @@ class gradingform_simplefeedbackrubric_controller extends gradingform_controller
     protected function delete_plugin_definition() {
         global $DB;
 
-        // get the list of instances
+        // Get the list of instances.
         $instances = array_keys($DB->get_records('grading_instances', array('definitionid' => $this->definition->id), '', 'id'));
-        // delete all fillings
+        // Delete all fillings.
         $DB->delete_records_list('gradingform_sfrbric_fillings', 'instanceid', $instances);
-        // delete all grades
+        // Delete all grades.
         $DB->delete_records_list('gradingform_sfrbric_grades', 'instanceid', $instances);
-        // delete instances
+        // Delete instances.
         $DB->delete_records_list('grading_instances', 'id', $instances);
-        // get the list of criteria records
-        $criteria = array_keys($DB->get_records('gradingform_sfrbric_criteria', array('definitionid' => $this->definition->id), '', 'id'));
-        // delete levels
+        // Get the list of criteria records.
+        $criteria = array_keys($DB->get_records('gradingform_sfrbric_criteria',
+                array('definitionid' => $this->definition->id), '', 'id'));
+        // Delete levels.
         $DB->delete_records_list('gradingform_sfrbric_levels', 'criterionid', $criteria);
-        // delete critera
+        // Delete critera.
         $DB->delete_records_list('gradingform_sfrbric_criteria', 'id', $criteria);
     }
 
@@ -541,7 +550,8 @@ class gradingform_simplefeedbackrubric_controller extends gradingform_controller
     public function get_or_create_instance($instanceid, $raterid, $itemid) {
         global $DB;
         if ($instanceid &&
-                $instance = $DB->get_record('grading_instances', array('id'  => $instanceid, 'raterid' => $raterid, 'itemid' => $itemid), '*', IGNORE_MISSING)) {
+                $instance = $DB->get_record('grading_instances',
+                        array('id'  => $instanceid, 'raterid' => $raterid, 'itemid' => $itemid), '*', IGNORE_MISSING)) {
             return $this->get_instance($instance);
         }
         if ($itemid && $raterid) {
@@ -573,7 +583,7 @@ class gradingform_simplefeedbackrubric_controller extends gradingform_controller
         return $this->get_renderer($page)->display_instances($this->get_active_instances($itemid), $defaultcontent, $cangrade);
     }
 
-    // ///// full-text search support /////////////////////////////////////////////
+    // Full-text search support.
 
     /**
      * Prepare the part of the search query to append to the FROM statement
@@ -602,11 +612,11 @@ class gradingform_simplefeedbackrubric_controller extends gradingform_controller
         $subsql = array();
         $params = array();
 
-        // search in simplefeedbackrubric criteria description
+        // Search in simplefeedbackrubric criteria description.
         $subsql[] = $DB->sql_like('rc.description', '?', false, false);
         $params[] = '%'.$DB->sql_like_escape($token).'%';
 
-        // search in simplefeedbackrubric levels definition
+        // Search in simplefeedbackrubric levels definition.
         $subsql[] = $DB->sql_like('rl.definition', '?', false, false);
         $params[] = '%'.$DB->sql_like_escape($token).'%';
 
@@ -614,12 +624,12 @@ class gradingform_simplefeedbackrubric_controller extends gradingform_controller
     }
 
     /**
-     * @return array An array containing a single key/value pair with the 'simplefeedbackrubric_criteria' external_multiple_structure.
+     * @return array Array containing a single key/value pair with the 'simplefeedbackrubric_criteria' external_multiple_structure.
      * @see gradingform_controller::get_external_definition_details()
      * @since Moodle 2.5
      */
     public static function get_external_definition_details() {
-        $simplefeedbackrubric_criteria = new external_multiple_structure(
+        $simplefeedbackrubriccriteria = new external_multiple_structure(
             new external_single_structure(
                 array(
                    'id'   => new external_value(PARAM_INT, 'criterion id', VALUE_OPTIONAL),
@@ -633,12 +643,12 @@ class gradingform_simplefeedbackrubric_controller extends gradingform_controller
                                         'definition' => new external_value(PARAM_RAW, 'definition', VALUE_OPTIONAL),
                                         'definitionformat' => new external_format_value('definition', VALUE_OPTIONAL)
                                        )
-                                  ), 'levels', VALUE_OPTIONAL
+                                   ), 'levels', VALUE_OPTIONAL
                               )
                    )
               ), 'definition details', VALUE_OPTIONAL
         );
-        return array('simplefeedbackrubric_criteria' => $simplefeedbackrubric_criteria);
+        return array('simplefeedbackrubric_criteria' => $simplefeedbackrubriccriteria);
     }
 
     /**
@@ -750,7 +760,7 @@ class gradingform_simplefeedbackrubric_instance extends gradingform_instance {
                         'levelid' => $record['levelid']
                     );
                     $DB->insert_record('gradingform_sfrbric_fillings', $newrecord);
-                 } else {
+                } else {
                     $newrecord = array('id' => $currentgrade['criteria'][$criterionid]['id']);
                     foreach (array('levelid') as $key) {
                         if (isset($record[$key]) && $currentgrade['criteria'][$criterionid][$key] != $record[$key]) {
@@ -809,14 +819,15 @@ class gradingform_simplefeedbackrubric_instance extends gradingform_instance {
         $criteria = $this->get_controller()->get_definition()->simplefeedbackrubric_criteria;
         $options = $this->get_controller()->get_options();
         if (!$gradingformelement->_flagFrozen) {
-            $module = array('name'=>'gradingform_simplefeedbackrubric', 'fullpath'=>'/grade/grading/form/simplefeedbackrubric/js/simplefeedbackrubric.js');
+            $module = array('name' => 'gradingform_simplefeedbackrubric',
+                'fullpath' => '/grade/grading/form/simplefeedbackrubric/js/simplefeedbackrubric.js');
             $page->requires->js_init_call('M.gradingform_simplefeedbackrubric.init',
                     array(array(
                         'name' => $gradingformelement->getName(), 'criterion' => array_keys($criteria),
                         'criterionordering' => $options['criterionordering'],
                         'autopopulatecomments' => $options['autopopulatecomments']
                     )), true, $module);
-            $mode = gradingform_simplefeedbackrubric_controller::DISPLAY_EVAL;
+                    $mode = gradingform_simplefeedbackrubric_controller::DISPLAY_EVAL;
         } else {
             if ($gradingformelement->_persistantFreeze) {
                 $mode = gradingform_simplefeedbackrubric_controller::DISPLAY_EVAL_FROZEN;
@@ -829,11 +840,13 @@ class gradingform_simplefeedbackrubric_instance extends gradingform_instance {
         if ($value === null) {
             $value = $this->get_simplefeedbackrubric_filling();
         } else if (!$this->validate_grading_element($value)) {
-            $html .= html_writer::tag('div', get_string('simplefeedbackrubricnotcompleted', 'gradingform_simplefeedbackrubric'), array('class' => 'gradingform_simplefeedbackrubric-error'));
+            $html .= html_writer::tag('div', get_string('simplefeedbackrubricnotcompleted',
+                    'gradingform_simplefeedbackrubric'), array('class' => 'gradingform_simplefeedbackrubric-error'));
         }
         $currentinstance = $this->get_current_instance();
         if ($currentinstance && $currentinstance->get_status() == gradingform_instance::INSTANCE_STATUS_NEEDUPDATE) {
-            $html .= html_writer::tag('div', get_string('needregrademessage', 'gradingform_simplefeedbackrubric'), array('class' => 'gradingform_simplefeedbackrubric-regrade'));
+            $html .= html_writer::tag('div', get_string('needregrademessage',
+                    'gradingform_simplefeedbackrubric'), array('class' => 'gradingform_simplefeedbackrubric-regrade'));
         }
         $haschanges = false;
         if ($currentinstance) {
@@ -841,21 +854,26 @@ class gradingform_simplefeedbackrubric_instance extends gradingform_instance {
             foreach ($curfilling['criteria'] as $criterionid => $curvalues) {
                 $value['criteria'][$criterionid]['savedlevelid'] = $curvalues['levelid'];
                 $newlevelid = null;
-                if (isset($value['criteria'][$criterionid]['levelid'])) $newlevelid = $value['criteria'][$criterionid]['levelid'];
+                if (isset($value['criteria'][$criterionid]['levelid'])) {
+                    $newlevelid = $value['criteria'][$criterionid]['levelid'];
+                }
                 if ($newlevelid != $curvalues['levelid']) {
                     $haschanges = true;
                 }
             }
         }
         if ($this->get_data('isrestored') && $haschanges) {
-            $html .= html_writer::tag('div', get_string('restoredfromdraft', 'gradingform_simplefeedbackrubric'), array('class' => 'gradingform_simplefeedbackrubric-restored'));
+            $html .= html_writer::tag('div', get_string('restoredfromdraft',
+                    'gradingform_simplefeedbackrubric'), array('class' => 'gradingform_simplefeedbackrubric-restored'));
         }
         if (!empty($options['showdescriptionteacher'])) {
-            $html .= html_writer::tag('div', $this->get_controller()->get_formatted_description(), array('class' => 'gradingform_simplefeedbackrubric-description'));
+            $html .= html_writer::tag('div', $this->get_controller()->get_formatted_description(),
+                    array('class' => 'gradingform_simplefeedbackrubric-description'));
         }
         $grademenu = $this->get_controller()->get_grade_range();
         $grade = ($currentinstance) ? $currentinstance->get_grade() : 0;
-        $html .= $this->get_controller()->get_renderer($page)->display_simplefeedbackrubric($criteria, $options, $mode, $gradingformelement->getName(), $value, $grademenu, $grade);
+        $html .= $this->get_controller()->get_renderer($page)->display_simplefeedbackrubric($criteria, $options, $mode,
+                $gradingformelement->getName(), $value, $grademenu, $grade);
         return $html;
     }
 }

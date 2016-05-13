@@ -43,6 +43,7 @@ require_once("HTML/QuickForm/input.php");
  *
  * @package    gradingform_simplefeedbackrubric
  * @copyright  2016 onwards Catalyst IT {@link http://www.catalyst-eu.net/}
+ * @author     Edwin Phillips <edwin.phillips@catalyst-eu.net>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
  * Based on code originating from package gradingform_rubric
@@ -64,12 +65,12 @@ class MoodleQuickForm_simplefeedbackrubriceditor extends HTML_QuickForm_input {
     /**
      * Constructor for simplefeedbackrubric editor
      *
-     * @param string $elementName
-     * @param string $elementLabel
+     * @param string $elementname
+     * @param string $elementlabel
      * @param array $attributes
      */
-    function MoodleQuickForm_simplefeedbackrubriceditor($elementName=null, $elementLabel=null, $attributes=null) {
-        parent::HTML_QuickForm_input($elementName, $elementLabel, $attributes);
+    public function __construct($elementname=null, $elementlabel=null, $attributes=null) {
+        parent::__construct($elementname, $elementlabel, $attributes);
     }
 
     /**
@@ -114,8 +115,8 @@ class MoodleQuickForm_simplefeedbackrubriceditor extends HTML_QuickForm_input {
         if (!$this->_flagFrozen) {
             $mode = gradingform_simplefeedbackrubric_controller::DISPLAY_EDIT_FULL;
             $module = array(
-                'name'=>'gradingform_simplefeedbackrubriceditor',
-                'fullpath'=>'/grade/grading/form/simplefeedbackrubric/js/simplefeedbackrubriceditor.js',
+                'name' => 'gradingform_simplefeedbackrubriceditor',
+                'fullpath' => '/grade/grading/form/simplefeedbackrubric/js/simplefeedbackrubriceditor.js',
                 'requires' => array('base', 'dom', 'event', 'event-touch', 'escape'),
                 'strings' => array(
                     array('confirmdeletecriterion', 'gradingform_simplefeedbackrubric'),
@@ -136,7 +137,7 @@ class MoodleQuickForm_simplefeedbackrubriceditor extends HTML_QuickForm_input {
                     $module
                 );
         } else {
-            // Simple Feedback Rubric is frozen, no javascript needed
+            // Simple Feedback Rubric is frozen, no javascript needed.
             if ($this->_persistantFreeze) {
                 $mode = gradingform_simplefeedbackrubric_controller::DISPLAY_EDIT_FROZEN;
             } else {
@@ -183,10 +184,10 @@ class MoodleQuickForm_simplefeedbackrubriceditor extends HTML_QuickForm_input {
             $value['criteria'] = array();
             $errors['err_nocriteria'] = 1;
         }
-        // If options are present in $value, replace default values with submitted values
+        // If options are present in $value, replace default values with submitted values.
         if (!empty($value['options'])) {
             foreach (array_keys($return['options']) as $option) {
-                // special treatment for checkboxes
+                // Special treatment for checkboxes.
                 if (!empty($value['options'][$option])) {
                     $return['options'][$option] = $value['options'][$option];
                 } else {
@@ -195,7 +196,7 @@ class MoodleQuickForm_simplefeedbackrubriceditor extends HTML_QuickForm_input {
             }
         }
         if (is_array($value)) {
-            // for other array keys of $value no special treatmeant neeeded, copy them to return value as is
+            // For other array keys of $value no special treatmeant neeeded, copy them to return value as is.
             foreach (array_keys($value) as $key) {
                 if ($key != 'options' && $key != 'criteria') {
                     $return[$key] = $value[$key];
@@ -203,14 +204,14 @@ class MoodleQuickForm_simplefeedbackrubriceditor extends HTML_QuickForm_input {
             }
         }
 
-        // iterate through criteria
+        // Iterate through criteria.
         $lastaction = null;
         $lastid = null;
         foreach ($value['criteria'] as $id => $criterion) {
             if ($id == 'addcriterion') {
                 $id = $this->get_next_id(array_keys($value['criteria']));
                 $criterion = array('description' => '', 'levels' => array());
-                // set other necessary fields (definition) for the levels in the new criterion
+                // Set other necessary fields (definition) for the levels in the new criterion.
                 foreach (array_keys($criterion['levels']) as $i) {
                     $criterion['levels'][$i]['definition'] = '';
                 }
@@ -241,7 +242,7 @@ class MoodleQuickForm_simplefeedbackrubriceditor extends HTML_QuickForm_input {
             }
             $criterion['levels'] = $levels;
             if ($withvalidation && !array_key_exists('delete', $criterion)) {
-                if (count($levels)<2) {
+                if (count($levels) < 2) {
                     $errors['err_mintwolevels'] = 1;
                     $criterion['error_levels'] = true;
                 }
@@ -276,13 +277,13 @@ class MoodleQuickForm_simplefeedbackrubriceditor extends HTML_QuickForm_input {
             }
         }
 
-        // add sort order field to criteria
+        // Add sort order field to criteria.
         $csortorder = 1;
         foreach (array_keys($return['criteria']) as $id) {
             $return['criteria'][$id]['sortorder'] = $csortorder++;
         }
 
-        // create validation error string (if needed)
+        // Create validation error string (if needed).
         if ($withvalidation) {
             if (count($errors)) {
                 $rv = array();
@@ -311,7 +312,7 @@ class MoodleQuickForm_simplefeedbackrubriceditor extends HTML_QuickForm_input {
                 $maxid = (int)$matches[1];
             }
         }
-        return 'NEWID'.($maxid+1);
+        return 'NEWID'.($maxid + 1);
     }
 
     /**
@@ -349,12 +350,12 @@ class MoodleQuickForm_simplefeedbackrubriceditor extends HTML_QuickForm_input {
      * Prepares the data for saving
      *
      * @see prepare_data()
-     * @param array $submitValues
+     * @param array $submitvalues
      * @param boolean $assoc
      * @return array
      */
-    public function exportValue(&$submitValues, $assoc = false) {
-        $value =  $this->prepare_data($this->_findValue($submitValues));
+    public function exportValue(&$submitvalues, $assoc = false) {
+        $value = $this->prepare_data($this->_findValue($submitvalues));
         return $this->_prepareValue($value, $assoc);
     }
 }

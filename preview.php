@@ -43,7 +43,8 @@ $controller = $manager->get_controller('simplefeedbackrubric');
 $options = $controller->get_options();
 
 if (!$controller->is_form_defined()) {
-    throw new moodle_exception('nopermissions', 'error', '', get_string('previewsimplefeedbackrubric', 'gradingform_simplefeedbackrubric'));
+    throw new moodle_exception('nopermissions', 'error', '',
+            get_string('previewsimplefeedbackrubric', 'gradingform_simplefeedbackrubric'));
 }
 
 $title = get_string('gradingof', 'gradingform_simplefeedbackrubric', $manager->get_area_title());
