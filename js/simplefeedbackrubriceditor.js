@@ -161,6 +161,14 @@ M.gradingform_simplefeedbackrubriceditor.editmode = function(el, editmode, focus
 // Handler for clicking on submit buttons within simplefeedbackrubriceditor element.
 // Adds/deletes/rearranges criteria and/or levels on client side.
 M.gradingform_simplefeedbackrubriceditor.buttonclick = function(e, confirmed) {
+    var levidx;
+    var parentel;
+    var newcriterion;
+    var newlevid;
+    var newid;
+    var levelsstr = '';
+    var el;
+    var elements_str;
     var Y = M.gradingform_simplefeedbackrubriceditor.Y;
     var name = M.gradingform_simplefeedbackrubriceditor.name;
     if (e.target.get('type') != 'submit') {
@@ -172,7 +180,6 @@ M.gradingform_simplefeedbackrubriceditor.buttonclick = function(e, confirmed) {
     if (chunks[0] != name || chunks[1] != 'criteria') {
         return;
     }
-    var elements_str;
     if (chunks.length > 4 || action == 'addlevel') {
         elements_str = '#simplefeedbackrubric-' + name + ' #' + name + '-criteria-' + chunks[2] + '-levels .level';
     } else {
@@ -180,8 +187,8 @@ M.gradingform_simplefeedbackrubriceditor.buttonclick = function(e, confirmed) {
     }
     // Prepare the id of the next inserted level or criterion.
     if (action == 'addcriterion' || action == 'addlevel' || action == 'duplicate') {
-        var newid = M.gradingform_simplefeedbackrubriceditor.calculatenewid('#simplefeedbackrubric-' + name + ' .criterion');
-        var newlevid = M.gradingform_simplefeedbackrubriceditor.calculatenewid('#simplefeedbackrubric-' + name + ' .level');
+        newid = M.gradingform_simplefeedbackrubriceditor.calculatenewid('#simplefeedbackrubric-' + name + ' .criterion');
+        newlevid = M.gradingform_simplefeedbackrubriceditor.calculatenewid('#simplefeedbackrubric-' + name + ' .level');
     }
     var dialog_options = {
         'scope' : this,
@@ -190,16 +197,14 @@ M.gradingform_simplefeedbackrubriceditor.buttonclick = function(e, confirmed) {
     };
     if (chunks.length == 3 && action == 'addcriterion') {
         // Add new criterion.
-        var levidx = 1;
-        var parentel = Y.one('#' + name + '-criteria');
+        parentel = Y.one('#' + name + '-criteria');
         if (parentel.one('>tbody')) {
             parentel = parentel.one('>tbody');
         }
-        var levelsstr = '';
         for (levidx = 0; levidx < 3; levidx++) {
             levelsstr += M.gradingform_simplefeedbackrubriceditor.templates[name].level.replace(/\{LEVEL-id\}/g, 'NEWID' + (newlevid + levidx));
         }
-        var newcriterion = M.gradingform_simplefeedbackrubriceditor.templates[name].criterion.replace(/\{LEVELS\}/, levelsstr);
+        newcriterion = M.gradingform_simplefeedbackrubriceditor.templates[name].criterion.replace(/\{LEVELS\}/, levelsstr);
         parentel.append(newcriterion.replace(/\{CRITERION-id\}/g, 'NEWID' + newid).replace(/\{.+?\}/g, ''));
         M.gradingform_simplefeedbackrubriceditor.assignclasses('#simplefeedbackrubric-' + name + ' #' + name + '-criteria-NEWID' + newid + '-levels .level');
         M.gradingform_simplefeedbackrubriceditor.addhandlers();
@@ -208,13 +213,13 @@ M.gradingform_simplefeedbackrubriceditor.buttonclick = function(e, confirmed) {
         M.gradingform_simplefeedbackrubriceditor.editmode(Y.one('#simplefeedbackrubric-' + name + ' #' + name + '-criteria-NEWID' + newid + '-description'),true);
     } else if (chunks.length == 5 && action == 'addlevel') {
         // Add new level.
-        parent = Y.one('#' + name + '-criteria-' + chunks[2] + '-levels');
+        parentel = Y.one('#' + name + '-criteria-' + chunks[2] + '-levels');
         var newlevel = M.gradingform_simplefeedbackrubriceditor.templates[name].level.replace(/\{CRITERION-id\}/g, chunks[2]).replace(/\{LEVEL-id\}/g, 'NEWID' + newlevid).replace(/\{.+?\}/g, '');
-        parent.append(newlevel);
+        parentel.append(newlevel);
         M.gradingform_simplefeedbackrubriceditor.addhandlers();
         M.gradingform_simplefeedbackrubriceditor.disablealleditors();
         M.gradingform_simplefeedbackrubriceditor.assignclasses(elements_str);
-        M.gradingform_simplefeedbackrubriceditor.editmode(parent.all('.level').item(parent.all('.level').size() - 1), true);
+        M.gradingform_simplefeedbackrubriceditor.editmode(parentel.all('.level').item(parentel.all('.level').size() - 1), true);
     } else if (chunks.length == 4 && action == 'moveup') {
         // Move criterion up.
         el = Y.one('#' + name + '-criteria-' + chunks[2]);
@@ -240,10 +245,11 @@ M.gradingform_simplefeedbackrubriceditor.buttonclick = function(e, confirmed) {
         }
     } else if (chunks.length == 4 && action == 'duplicate') {
         // Duplicate criterion.
-        var levelsdef = [], levidx = null;
-        var parentel = Y.one('#' + name + '-criteria');
-        if (parentel.one('>tbody')) { parentel = parentel.one('>tbody'); }
-
+        var levelsdef = [];
+        parentel = Y.one('#' + name + '-criteria');
+        if (parentel.one('>tbody')) {
+            parentel = parentel.one('>tbody');
+        }
         var source = Y.one('#' + name + '-criteria-' + chunks[2]);
         if (source.all('.level')) {
             var lastcriterion = source.all('.level');
@@ -251,15 +257,13 @@ M.gradingform_simplefeedbackrubriceditor.buttonclick = function(e, confirmed) {
                 levelsdef[levidx] = lastcriterion.item(levidx).one('.definition .textvalue').get('innerHTML');
             }
         }
-
-        var levelsstr = '';
         for (levidx = 0; levidx < levelsdef.length; levidx++) {
             levelsstr += M.gradingform_simplefeedbackrubriceditor.templates[name].level
                             .replace(/\{LEVEL-id\}/g, 'NEWID' + (newlevid + levidx))
                             .replace(/\{LEVEL-definition\}/g, levelsdef[levidx]);
         }
         var description = source.one('.description .textvalue');
-        var newcriterion = M.gradingform_simplefeedbackrubriceditor.templates[name].criterion
+        newcriterion = M.gradingform_simplefeedbackrubriceditor.templates[name].criterion
                                 .replace(/\{LEVELS\}/, levelsstr)
                                 .replace(/\{CRITERION-description\}/, description.get('innerHTML'));
         parentel.append(newcriterion.replace(/\{CRITERION-id\}/g, 'NEWID' + newid).replace(/\{.+?\}/g, ''));
@@ -289,8 +293,9 @@ M.gradingform_simplefeedbackrubriceditor.assignclasses = function (elements_str)
     var elements = M.gradingform_simplefeedbackrubriceditor.Y.all(elements_str);
     for (var i = 0; i < elements.size(); i++) {
         elements.item(i).removeClass('first').removeClass('last').removeClass('even').removeClass('odd').
-            addClass(((i % 2) ? 'odd' : 'even') + ((i == 0) ? ' first' : '') + ((i == elements.size() - 1) ? ' last' : ''));
+            addClass(((i % 2) ? 'odd' : 'even') + ((i === 0) ? ' first' : '') + ((i == elements.size() - 1) ? ' last' : ''));
         elements.item(i).all('input[type=hidden]').each(
+            /*jshint loopfunc: true */
             function(node) {
                 if (node.get('name').match(/sortorder/)) {
                     node.set('value', i);
