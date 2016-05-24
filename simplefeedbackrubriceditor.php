@@ -63,17 +63,6 @@ class MoodleQuickForm_simplefeedbackrubriceditor extends HTML_QuickForm_input {
     protected $regradeconfirmation = false;
 
     /**
-     * Constructor for simplefeedbackrubric editor
-     *
-     * @param string $elementname
-     * @param string $elementlabel
-     * @param array $attributes
-     */
-    public function __construct($elementname=null, $elementlabel=null, $attributes=null) {
-        parent::__construct($elementname, $elementlabel, $attributes);
-    }
-
-    /**
      * get html for help button
      *
      * @return string html for help button
