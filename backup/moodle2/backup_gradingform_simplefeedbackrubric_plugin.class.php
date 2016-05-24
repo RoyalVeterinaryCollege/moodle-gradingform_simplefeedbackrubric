@@ -47,14 +47,14 @@ class backup_gradingform_simplefeedbackrubric_plugin extends backup_gradingform_
 
         // Define our elements.
 
-        $criteria = new backup_nested_element('criteria');
+        $criteria = new backup_nested_element('sfrcriteria');
 
-        $criterion = new backup_nested_element('criterion', array('id'), array(
+        $criterion = new backup_nested_element('sfrcriterion', array('id'), array(
             'sortorder', 'description', 'descriptionformat'));
 
-        $levels = new backup_nested_element('levels');
+        $levels = new backup_nested_element('sfrlevels');
 
-        $level = new backup_nested_element('level', array('id'), array(
+        $level = new backup_nested_element('sfrlevel', array('id'), array(
             'definition', 'definitionformat'));
 
         // Build elements hierarchy.
