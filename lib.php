@@ -787,7 +787,7 @@ class gradingform_simplefeedbackrubric_instance extends gradingform_instance {
         if (!$DB->record_exists('gradingform_sfrbric_grades', array('instanceid' => $this->get_id()))) {
             $newrecord = new stdClass();
             $newrecord->instanceid = $this->get_id();
-            $newrecord->grade = ($data['grade'] == 'na') ? '' : $data['grade'];
+            $newrecord->grade = (!isset($data['grade']) || $data['grade'] == 'na') ? '' : $data['grade'];
             $DB->insert_record('gradingform_sfrbric_grades', $newrecord);
         } else {
             $sql = "UPDATE {gradingform_sfrbric_grades} SET grade = ? WHERE instanceid = ?";
